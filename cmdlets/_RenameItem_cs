@@ -1,0 +1,109 @@
+// Unnecessary, apparently Powershell already has this.
+
+using System.Management.Automation;
+using IoPath = System.IO.Path;
+
+[Cmdlet(VerbsCommon.Rename, "Item")]
+public class RenameItem: PSCmdlet {
+	[Parameter(
+		Mandatory = true,
+		Position = 0,
+		ValueFromPipeline = true,
+		HelpMessage = "Path to the item to rename"
+	)]
+	public object[] Path { get; set; }
+
+	[Parameter(
+		Mandatory = true,
+		Position = 1,
+		HelpMessage = "The new name of the item"
+	)]
+	public string Name { get; set; }
+
+	[Parameter(HelpMessage = "Overwrite target files if they exist")]
+	public SwitchParameter Force { get; set; }
+
+	private HashSet<string> handledParents = new();
+
+	protected override void BeginProcessing() {
+		if (string.IsNullOrEmpty(this.Name)) {
+			throw new Exception("The Name parameter cannot be empty");
+		}
+		switch (this.Name) {
+			case ".": case "..": throw new Exception($"The Name parameter cannot be '{this.Name}'");
+			case "": throw new Exception("The Name parameter cannot be empty");
+		}
+
+		// Name also can't consist of whitespace
+		if (Fs.IsWindows && this.Name.All(c => c == ' ')) {
+			throw new Exception("The Name parameter canno consist of whitespace");
+		}
+
+		var invalid = IoPath.GetInvalidFileNameChars();
+		foreach (var c in this.Name) {
+			if (invalid.Contains(c)) {
+				throw new Exception($"The Name parameter cannot contain the character '{c}'");
+			}
+		}
+	}
+
+	protected override void ProcessRecord() {
+		var _items = this.Path.Where(x => x is not null).Select(x => x.ToString()).ToArray();
+		if (_items.Length == 0) return;
+
+		var items = this.InvokeProvider.Item.Get(_items, true, true)
+		.Select(x => {
+
+			if (x.BaseObject is FileSystemInfo info) return info;
+			else throw new Exception($"Cannot operate on non-filesystem items: {x} (type x.BaseObject.GetType())");
+		});
+
+		foreach (var item in items) {
+			if (item.Name == this.Name) {
+				WriteVerbose($"Skipping {item}: already has the wanted name");
+				continue;
+			}
+
+			string parent;
+			Action<string, string> moveFunc;
+
+			if (item is FileInfo f) {
+				parent = f.DirectoryName;
+				moveFunc = File.Move;
+			} else if (item is DirectoryInfo d) {
+				parent = d.Parent.FullName;
+				moveFunc = Directory.Move;
+			} else {
+				throw new Exception("panic!");
+			}
+
+			parent = Fs.TrimEndingDirectorySeparator(parent);
+			if (!this.handledParents.Add(parent)) {
+				throw new Exception($"Will not overwrite just-renamed item: {item}");
+			}
+
+			// If item.Name and Name are equal ignoring case, rename into a temporary to account for case insensitive filesystems
+			var src = "";
+			var dest = IoPath.Join(parent, this.Name);
+
+			try {
+				if (string.Equals(item.Name, this.Name, StringComparison.CurrentCultureIgnoreCase)) {
+					var temp = IoPath.Join(parent, Fs.RandomFileName(12, ".", ".tmp"));
+					WriteVerbose($"Temporarily renaming {item} to {temp}");
+					moveFunc(item.FullName, temp);
+					src = temp;
+				} else {
+					src = item.FullName;
+				}
+
+				WriteVerbose($"Renaming {item} to {dest}");
+				moveFunc(src, dest);
+			} catch (Exception e) {
+				this.handledParents.Remove(parent);
+				throw new Exception($"Failed to rename {src} to {dest}", e);
+			}
+		}
+	}
+
+	protected override void EndProcessing() { }
+}
