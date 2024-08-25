@@ -39,7 +39,6 @@ public class FindItem: Cmd {
 	[Parameter(HelpMessage = "Ignore items that are symbolic links or NTFS junctions")]
 	public SwitchParameter NotLink { get; set; }
 
-	private static ScriptBlock Truthy = System.Management.Automation.ScriptBlock.Create(@"$args[0] -as [bool]");
 	private ulong progress = 0;
 	private List<WildcardPattern> globs = new();
 
@@ -151,6 +150,6 @@ public class FindItem: Cmd {
 		System.Collections.IList input = new FileSystemInfo[] { x };
 		this.SessionState.PSVariable.Set("_", x);
 		var res = this.InvokeCommand.InvokeScript(false, this.ScriptBlock, input, [x]);
-		return res.Count > 0 && (bool)Truthy.Invoke([res[0]])[0].BaseObject;
+		return LanguagePrimitives.IsTrue(res);
 	}
 }
