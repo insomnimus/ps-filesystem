@@ -14,19 +14,10 @@ public class GetRelativePath: Cmd {
 	[Parameter(HelpMessage = "Make path relative to another directory")]
 	public string Base { get; set; } = ".";
 
-	// private string pwd = "";
-
-	protected override void BeginProcessing() {
-		// this.pwd = GetUnresolvedProviderPathFromPSPath(".");
-		// this.pwd = this.SessionState.Path.CurrentLocation.Path;
-	}
-
 	protected override void ProcessRecord() {
 		var relativeTo = FilePath.Combine(this.PWD, this.Base);
 		var p = FilePath.Combine(this.PWD, this.Path);
 
 		WriteObject(FilePath.GetRelativePath(p, relativeTo));
 	}
-
-	protected override void EndProcessing() { }
 }

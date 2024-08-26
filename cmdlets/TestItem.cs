@@ -27,8 +27,6 @@ public class TestItem: PSCmdlet {
 	[Parameter(HelpMessage = "Test if item is a symbolic link or an NTFS junction")]
 	public SwitchParameter Link { get; set; }
 
-	protected override void BeginProcessing() { }
-
 	protected override void ProcessRecord() {
 		var items = new List<FileSystemInfo>(this.Path.Length);
 		foreach (var p in this.Path.Where(x => x is not null)) {

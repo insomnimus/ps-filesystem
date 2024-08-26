@@ -68,8 +68,6 @@ public class FormatPath: Cmd {
 		}
 	}
 
-	protected override void EndProcessing() { }
-
 	private (int back, int skip, int relativeLength) calcSteps(string[] relativeTo, string[] p) {
 		var min = Math.Min(p.Length, relativeTo.Length);
 		var i = 0;

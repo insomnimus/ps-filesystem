@@ -10,8 +10,6 @@ public class ExpandDirectory: PSCmdlet {
 	)]
 	public string Path { get; set; }
 
-	protected override void BeginProcessing() { }
-
 	protected override void ProcessRecord() {
 		var item = this.InvokeProvider.Item.Get([this.Path], true, true)[0];
 		DirectoryInfo dir;
@@ -73,6 +71,4 @@ public class ExpandDirectory: PSCmdlet {
 		WriteVerbose($"Deleting directory {dir}");
 		dir.Delete();
 	}
-
-	protected override void EndProcessing() { }
 }

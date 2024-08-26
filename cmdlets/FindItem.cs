@@ -94,8 +94,6 @@ public class FindItem: Cmd {
 		}
 	}
 
-	protected override void EndProcessing() { }
-
 	private void findUp(DirectoryInfo dir) {
 		var opts = new EnumerationOptions() {
 			IgnoreInaccessible = true,
