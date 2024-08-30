@@ -43,3 +43,47 @@ function Select-Item {
 
 	end {}
 }
+
+function Get-LastItem {
+	[CmdletBinding(DefaultParameterSetName = "creation")]
+	[OutputType([IO.FileSystemInfo])]
+	param (
+		[Parameter(Position = 0, ValueFromPipeline, HelpMessage = "Path to the items")]
+		[SupportsWildcards()]
+		[object[]] $Path = "*",
+
+		[Parameter(HelpMessage = "Get at most N items")]
+		[uint] $N = 1,
+
+		[Parameter(ParameterSetName = "creation", HelpMessage = "Get most recent by creation time")]
+		[switch] $Creation,
+		[Parameter(ParameterSetName = "modification", HelpMessage = "Get most recent by modification time")]
+		[switch] $Modification,
+		[Parameter(ParameterSetName = "access", HelpMessage = "Get most recent by last access time")]
+		[switch] $Access
+	)
+
+	begin {
+		$files = [Collections.Generic.List[IO.FileSystemInfo]]::new()
+	}
+
+	process {
+		foreach($f in Get-Item -ea stop -Path:$Path) {
+			[void] $files.Add($f)
+		}
+	}
+
+	end {
+		$sortFunc = {
+			if($Modification) { $_.LastWriteTimeUtc }
+			elseif($Access) { $_.LastAccessTimeUtc }
+			else { $_.CreationTimeUtc }
+		}
+
+		if($N -eq 0) {
+			$files | Sort-Object -Descending $sortFunc
+		} else {
+			$files | Sort-Object -Descending $sortFunc | Select-Object -First $N
+		}
+	}
+}

@@ -1,5 +1,5 @@
 @{
-	ModuleVersion = "0.1.0"
+	ModuleVersion = "0.1.1"
 	RootModule = "Filesystem.psm1"
 	Description = "Cmdlets for various filesystem operations"
 	Author = "Taylan Gökkaya"
@@ -8,7 +8,7 @@
 
 	# FormatsToProcess = @()
 	NestedModules = @("Filesystem.dll")
-	FunctionsToExport = @("Select-Item")
+	FunctionsToExport = @("Select-Item", "Get-LastItem")
 	CmdletsToExport = @(
 		"Expand-Directory"
 		"Find-Item"

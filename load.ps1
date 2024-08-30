@@ -13,9 +13,7 @@ if($build) {
 }
 
 pwsh.exe -nologo -noe -c "
-remove-item function:\unnest
-remove-module fsop
-remove-alias sz, rename
+remove-alias sz
 ipmo $PSScriptRoot/bin/Filesystem
 sal dua measure-diskusage
 # function fp { format-path -pretty @args }
