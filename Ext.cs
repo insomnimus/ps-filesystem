@@ -1,5 +1,5 @@
 public static class StringExt {
-	private static bool IsWindows => System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows);
+	private static bool IsWindows = System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows);
 
 	public static bool OsEq(this string a, string b) {
 		if (IsWindows) return a.EqIgnoreCase(b);

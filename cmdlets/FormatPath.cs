@@ -1,4 +1,3 @@
-using System.Management.Automation;
 using System.Text;
 
 [Cmdlet(VerbsCommon.Format, "Path", DefaultParameterSetName = "pretty")]

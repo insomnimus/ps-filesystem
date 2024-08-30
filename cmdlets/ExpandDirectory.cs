@@ -1,4 +1,3 @@
-using System.Management.Automation;
 using IoPath = System.IO.Path;
 
 [Cmdlet(VerbsData.Expand, "Directory")]

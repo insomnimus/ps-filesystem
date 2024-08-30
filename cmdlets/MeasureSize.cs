@@ -1,5 +1,3 @@
-using System.Management.Automation;
-
 [Cmdlet(
 VerbsDiagnostic.Measure, "Size",
 	DefaultParameterSetName = "wildcard"

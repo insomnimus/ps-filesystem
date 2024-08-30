@@ -8,11 +8,12 @@
 
 	# FormatsToProcess = @()
 	NestedModules = @("Filesystem.dll")
-	FunctionsToExport = @("Select-Item", "Get-LastItem")
+	FunctionsToExport = @("Select-Item")
 	CmdletsToExport = @(
 		"Expand-Directory"
 		"Find-Item"
 		"Format-Path"
+		"Get-LastItem"
 		"Get-RelativePath"
 		"Measure-DiskUsage"
 		"Measure-Size"

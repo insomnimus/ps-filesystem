@@ -1,4 +1,3 @@
-using System.Management.Automation;
 using System.Collections.ObjectModel;
 
 public enum TestItemType {

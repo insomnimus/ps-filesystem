@@ -169,7 +169,7 @@ public struct ByteSize: IComparable<ByteSize> {
 public record struct DirEntry(FileSystemInfo Item, uint Depth, bool IsDir);
 
 internal static class Fs {
-	internal static bool IsWindows => System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows);
+	internal static bool IsWindows = System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows);
 	internal static char[] PathSeparators => IsWindows ? ['\\', '/'] : ['/'];
 
 	private static Random RNG = new Random();

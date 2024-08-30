@@ -1,5 +1,3 @@
-using System.Management.Automation;
-
 [Cmdlet(VerbsCommon.Find, "Item", DefaultParameterSetName = "script")]
 [OutputType(typeof(FileSystemInfo))]
 public class FindItem: Cmd {

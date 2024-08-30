@@ -1,5 +1,3 @@
-using System.Management.Automation;
-
 [Cmdlet(VerbsCommon.Get, "RelativePath")]
 [OutputType(typeof(string))]
 public class GetRelativePath: Cmd {

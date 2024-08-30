@@ -44,7 +44,7 @@ function Select-Item {
 	end {}
 }
 
-function Get-LastItem {
+function _Get-LastItem {
 	[CmdletBinding(DefaultParameterSetName = "creation")]
 	[OutputType([IO.FileSystemInfo])]
 	param (
@@ -52,6 +52,10 @@ function Get-LastItem {
 		[SupportsWildcards()]
 		[object[]] $Path = "*",
 
+		[Parameter(HelpMessage = "Include only plain files")]
+		[switch] $File,
+		[Parameter(HelpMessage = "Include only directories")]
+		[switch] $Directory,
 		[Parameter(HelpMessage = "Get at most N items")]
 		[uint] $N = 1,
 
@@ -65,11 +69,16 @@ function Get-LastItem {
 
 	begin {
 		$files = [Collections.Generic.List[IO.FileSystemInfo]]::new()
+		if(!$file -and !$Directory) {
+			$File = $Directory = $true
+		}
 	}
 
 	process {
 		foreach($f in Get-Item -ea stop -Path:$Path) {
-			[void] $files.Add($f)
+			if(($file -and $directory) -or ($file -and $f -is [IO.FileInfo]) -or ($Directory -and $f -is [IO.DirectoryInfo])) {
+				[void] $files.Add($f)
+			}
 		}
 	}
 
