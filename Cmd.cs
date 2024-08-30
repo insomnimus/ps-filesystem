@@ -1,3 +1,5 @@
+namespace Filesystem;
+
 public abstract class Cmd: PSCmdlet {
 	internal void CheckCancel() {
 		if (this.Stopping) {

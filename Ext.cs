@@ -1,3 +1,5 @@
+namespace Filesystem;
+
 public static class StringExt {
 	private static bool IsWindows = System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows);
 

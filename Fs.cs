@@ -1,3 +1,5 @@
+namespace Filesystem;
+
 using System.Text;
 using System.Globalization;
 

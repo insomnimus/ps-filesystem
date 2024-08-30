@@ -1,3 +1,5 @@
+namespace Filesystem;
+
 [Cmdlet(VerbsCommon.Get, "RelativePath")]
 [OutputType(typeof(string))]
 public class GetRelativePath: Cmd {

@@ -1,3 +1,5 @@
+namespace Filesystem;
+
 [Cmdlet(VerbsCommon.Get, "LastItem", DefaultParameterSetName = "creation")]
 [OutputType(typeof(FileSystemInfo))]
 public class GetLastItem: Cmd {

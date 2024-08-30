@@ -1,3 +1,5 @@
+namespace Filesystem;
+
 using System.Text;
 
 [Cmdlet(VerbsCommon.Format, "Path", DefaultParameterSetName = "pretty")]

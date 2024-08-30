@@ -1,3 +1,5 @@
+namespace Filesystem;
+
 [Cmdlet(
 VerbsDiagnostic.Measure, "Size",
 	DefaultParameterSetName = "wildcard"

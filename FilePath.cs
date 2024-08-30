@@ -1,3 +1,5 @@
+namespace Filesystem;
+
 public static class FilePath {
 	public static char[] Separators = Fs.IsWindows ? ['\\', '/'] : ['/'];
 	public static char Separator => Path.DirectorySeparatorChar;

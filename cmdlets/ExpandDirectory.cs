@@ -1,3 +1,5 @@
+namespace Filesystem;
+
 using IoPath = System.IO.Path;
 
 [Cmdlet(VerbsData.Expand, "Directory")]

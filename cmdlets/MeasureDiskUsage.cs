@@ -1,3 +1,5 @@
+namespace Filesystem;
+
 public struct SizeInfo {
 	public ByteSize Size { get; set; }
 	public FileSystemInfo Item { get; set; }
