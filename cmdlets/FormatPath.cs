@@ -47,6 +47,12 @@ public class FormatPath: Cmd {
 		var p = FilePath.Components(path);
 		var pwd = FilePath.Components(FilePath.Combine(this.PWD, this.RelativeTo, true));
 
+		// Special case formatting C:\foo, when PWD is C:\.
+		if (pwd.components.Length == 0 && Fs.IsWindows && pwd.prefix.OsEq(p.prefix)) {
+			return string.Join(FilePath.Separator, p.components);
+		}
+
+
 		if (!p.prefix.OsEq(pwd.prefix)) {
 			var h = FilePath.Components(this.home);
 			var fromHome = FilePath.StripPrefix(p.components, h.components);

@@ -12,7 +12,7 @@ if($LastExitCode -ne 0) {
 
 $ErrorActionPreference = "stop"
 
-$p = join-path $PSScriptRoot bin/Release/netstandard2.1/publish
+$p = join-path $PSScriptRoot bin/Release/net8.0/publish
 $dest = join-path $PSScriptRoot bin/Filesystem
 remove-item -recurse -ea ignore -lp $dest
 copy-item -recurse -lp $p, "$PSScriptRoot/Filesystem.psd1", "$PSScriptRoot/Filesystem.psm1" $dest

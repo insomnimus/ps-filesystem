@@ -204,8 +204,10 @@ internal static class Fs {
 					if (x is FileInfo f) n += f.Length;
 					else if (x is DirectoryInfo dir) q.Enqueue(dir);
 				}
-			} catch (Exception e) {
-				if (i == 0) throw e;
+			} catch (Exception) {
+				if (i == 0) {
+					throw;
+				}
 				// Ignore it otherwise
 			}
 		}

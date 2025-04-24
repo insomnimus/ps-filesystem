@@ -138,6 +138,11 @@ public static class FilePath {
 		var p = pRest.Split(Separators, int.MaxValue, StringSplitOptions.RemoveEmptyEntries);
 		var r = rRest.Split(Separators, int.MaxValue, StringSplitOptions.RemoveEmptyEntries);
 
+		// Special case for when relativeTo is the root, and path is under it.
+		if (r.Length == 0) {
+			return string.Join(Separator, p);
+		}
+
 		var min = Math.Min(p.Length, r.Length);
 		var back = 0;
 		IEnumerable<string> forward = null;
