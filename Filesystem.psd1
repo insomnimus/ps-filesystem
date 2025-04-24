@@ -1,5 +1,5 @@
 @{
-	ModuleVersion = "0.1.1"
+	ModuleVersion = "0.1.2"
 	RootModule = "Filesystem.psm1"
 	Description = "Cmdlets for various filesystem operations"
 	Author = "Taylan Gökkaya"
